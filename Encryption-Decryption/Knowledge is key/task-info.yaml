@@ -1,0 +1,154 @@
+type: edu
+custom_name: stage2
+files:
+- name: src/encryptdecrypt/Main.java
+  visible: true
+  text: |
+    package encryptdecrypt;
+
+    public class Main {
+        public static void main(String[] args) {
+            System.out.println("Hello World!");
+        }
+    }
+  learner_created: false
+- name: test/EncryptDecryptTest.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testcase.TestCase;
+
+    import java.util.List;
+
+
+    class Attach {
+        String original;
+        int shift;
+        String output;
+
+        public Attach(String original, int shift, String output) {
+            this.original = original;
+            this.shift = shift;
+            this.output = output;
+        }
+    }
+
+    public class EncryptDecryptTest extends StageTest<Attach> {
+
+        @Override
+        public List<TestCase<Attach>> generate() {
+            return List.of(
+                new TestCase<Attach>()
+                    .setInput("welcome to hyperskill\n5")
+                    .setAttach(new Attach(
+                        "welcome to hyperskill",
+                        5,
+                        "bjqhtrj yt mdujwxpnqq")),
+
+                new TestCase<Attach>()
+                    .setInput("treasure\n10")
+                    .setAttach(new Attach(
+                        "treasure",
+                        10,
+                        "dbokcebo"
+                    )),
+
+                new TestCase<Attach>()
+                    .setInput("qdvdqvrxqwxrxwpvrxspvxiqgdiqarairpbiqqid\n12")
+                    .setAttach(new Attach(
+                        "qdvdqvrxqwxrxwpvrxspvxiqgdiqarairpbiqqid",
+                        12,
+                        "cphpchdjcijdjibhdjebhjucspucmdmudbnuccup"
+                    )),
+
+                new TestCase<Attach>()
+                    .setInput("y\n10")
+                    .setAttach(new Attach(
+                        "y",
+                        10,
+                        "i"
+                    ))
+            );
+        }
+
+        @Override
+        public CheckResult check(String reply, Attach attach) {
+            String clue = attach.output;
+            reply = reply.trim();
+            clue = clue.trim();
+            boolean isCorrect = reply.equals(clue);
+            if (isCorrect) {
+                return CheckResult.correct();
+            }
+            if (reply.length() != clue.length()) {
+                return CheckResult.wrong(
+                    "You should output a line with length " +
+                        clue.length() + ". " + "You output a " +
+                        "line with length " + reply.length()
+                );
+            }
+            for (int i = 0; i < clue.length(); i++) {
+                if (reply.charAt(i) != clue.charAt(i)) {
+                    return CheckResult.wrong(
+                        "Your " + (i+1) + "-th character '" + reply.charAt(i) + "'" +
+                            " is incorrect. \n" +
+                        "The right one is '" + clue.charAt(i) + "'. \n" +
+                            "Key is " + attach.shift
+                    );
+                }
+            }
+            return CheckResult.correct();
+        }
+    }
+  learner_created: false
+- name: src/encryptdecrypt/MessageEncryptor.java
+  visible: true
+  text: |
+    package encryptdecrypt;
+
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    import java.util.List;
+
+    public class MessageEncryptor {
+        public void encryptMessage(String message) {
+            StringBuilder result = new StringBuilder();
+            char[] characters = message.toCharArray();
+
+            for (char character : characters) {
+                result.append(letterCypher(character));
+            }
+            System.out.println(result);
+        }
+
+        private char letterCypher(Character currentChar) {
+            List<Character> characterSet = new ArrayList<>(Arrays.asList(
+                    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'));
+
+            if (characterSet.contains(currentChar)) {
+                return characterSet.get((characterSet.size() - 1) - characterSet.indexOf(currentChar));
+            } else {
+                return currentChar;
+            }
+        }
+    }
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/5388#comment
+status: Failed
+feedback:
+  message: |-
+    Error in test #1
+
+    Program ran out of input. You tried to read more than expected.
+
+    Please find below the output of your program during this failed test.
+    Note that the &#39;&gt;&#39; character indicates the beginning of the input line.
+
+    ---
+
+    &gt; welcome to hyperskill
+    &gt; 5
+  time: Tue, 05 Apr 2022 11:44:02 UTC
+record: 2

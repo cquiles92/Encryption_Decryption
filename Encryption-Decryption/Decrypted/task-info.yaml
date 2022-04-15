@@ -1,0 +1,96 @@
+type: edu
+custom_name: Decrypted!
+files:
+- name: src/encryptdecrypt/Main.java
+  visible: true
+  text: |
+    package encryptdecrypt;
+
+    public class Main {
+        public static void main(String[] args) {
+            System.out.println("Hello World!");
+        }
+    }
+  learner_created: false
+- name: test/EncryptDecryptTest.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.SimpleTestCase;
+
+    import java.util.List;
+
+    public class EncryptDecryptTest extends StageTest {
+
+        @Override
+        public List<SimpleTestCase> generate() {
+            return List.of(
+                new SimpleTestCase(
+                    "enc\n" +
+                        "Welcome to hyperskill!\n" +
+                        "5",
+                    "\\jqhtrj%yt%m~ujwxpnqq&"),
+                new SimpleTestCase(
+                    "enc\n" +
+                        "Hello\n" +
+                        "0",
+                    "Hello"),
+                new SimpleTestCase(
+                    "enc\n" +
+                        "012345678\n" +
+                        "1",
+                    "123456789"),
+                new SimpleTestCase(
+                    "dec\n" +
+                        "\\jqhtrj%yt%m~ujwxpnqq&\n" +
+                        "5",
+                    "Welcome to hyperskill!"),
+                new SimpleTestCase(
+                    "dec\n" +
+                        "Hello\n" +
+                        "0",
+                    "Hello"),
+                new SimpleTestCase(
+                    "dec\n" +
+                        "222233334444\n" +
+                        "1",
+                    "111122223333")
+            );
+        }
+    }
+  learner_created: false
+- name: src/encryptdecrypt/MessageEncryptor.java
+  visible: true
+  text: |
+    package encryptdecrypt;
+
+    public class MessageEncryptor {
+        public void printMessage(String selection, String message, int key) {
+            StringBuilder result = new StringBuilder();
+            char[] characters = message.toCharArray();
+
+            for (char character : characters) {
+                if (selection.equals("enc")) {
+                    result.append(encrypt(character, key));
+                } else if (selection.equals("dec")) {
+                    result.append(decrypt(character, key));
+                }
+            }
+            System.out.println(result);
+        }
+
+        private char encrypt(char character, int key) {
+            return (char) ((int) character + key);
+        }
+
+        private char decrypt(char character, int key) {
+            return (char) ((int) character - key);
+        }
+    }
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/5389#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Tue, 05 Apr 2022 11:45:26 UTC
+record: 3
